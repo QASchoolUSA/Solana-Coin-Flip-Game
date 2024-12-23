@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Button } from "../components/ui/button";
 import { Card, CardHeader, CardContent, CardFooter } from "../components/ui/card";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
@@ -22,31 +22,31 @@ if (!secretKeyString) {
 
 const HOUSE_WALLET_ADDRESS = new PublicKey('bosqY2NZfWMnZdAhezuxHuS9PT37Xrk76691LoZnUBs');
 
-export default function BettingGame() {
-  const { connected, publicKey, sendTransaction } = useWallet();
-  const [betAmount, setBetAmount] = useState(0.1);
-  const [selection, setSelection] = useState<"heads" | "tails" | null>(null);
-  const [result, setResult] = useState<"heads" | "tails" | null>(null);
+const CoinFlip: React.FC = () => {
+  const { publicKey, sendTransaction } = useWallet();
   const [isFlipping, setIsFlipping] = useState(false);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
+  const [result, setResult] = useState<"heads" | "tails" | null>(null);
+  const [selection, setSelection] = useState<"heads" | "tails" | null>(null);
+  const [betAmount, setBetAmount] = useState<number>(0);
 
-  const connection = new Connection('https://api.devnet.solana.com', 'confirmed');
-
-  const logWalletBalance = async () => {
-    if (publicKey) {
-      const balance = await connection.getBalance(publicKey);
-      console.log(`Wallet balance: ${balance / LAMPORTS_PER_SOL} SOL`);
-    } else {
-      console.log('Wallet not connected');
-    }
-  };
+  const connection = useMemo(() => new Connection('https://api.devnet.solana.com', 'confirmed'), []);
 
   useEffect(() => {
+    const logWalletBalance = async () => {
+      if (publicKey) {
+        const balance = await connection.getBalance(publicKey);
+        console.log(`Wallet balance: ${balance / LAMPORTS_PER_SOL} SOL`);
+      } else {
+        console.log('Wallet not connected');
+      }
+    };
+
     logWalletBalance();
-  }, [publicKey]);
+  }, [publicKey, connection]);
 
   const handleBet = async () => {
-    if (!connected) {
+    if (!publicKey) {
       setMessage("Please connect your wallet.");
       return;
     }
@@ -60,10 +60,8 @@ export default function BettingGame() {
     setMessage("");
     setResult(null);
 
-    // Create a transaction
     const transaction = new Transaction();
 
-    // Add the bet transaction
     transaction.add(
       SystemProgram.transfer({
         fromPubkey: publicKey!,
@@ -72,12 +70,10 @@ export default function BettingGame() {
       })
     );
 
-    // Simulate coin flip
-    const flipResult = Math.random() < 0.5 ? "heads" : "tails";
+    const flipResult: "heads" | "tails" = Math.random() < 0.5 ? "heads" : "tails";
     setTimeout(async () => {
       setResult(flipResult);
       try {
-        // Send the transaction
         const signature = await sendTransaction(transaction, connection);
         await connection.confirmTransaction(signature, 'confirmed');
         
@@ -148,4 +144,6 @@ export default function BettingGame() {
       </Card>
     </div>
   );
-}
+};
+
+export default CoinFlip;

@@ -12,7 +12,7 @@ export function cn(...classes: string[]): string {
   }
   
   // A debounce utility function to limit how often a function is called
-  export function debounce<T extends (...args: any[]) => void>(func: T, wait: number): (...args: Parameters<T>) => void {
+  export function debounce<T extends (...args: unknown[]) => void>(func: T, wait: number): (...args: Parameters<T>) => void {
     let timeout: NodeJS.Timeout | null;
     return (...args: Parameters<T>) => {
       if (timeout) clearTimeout(timeout);

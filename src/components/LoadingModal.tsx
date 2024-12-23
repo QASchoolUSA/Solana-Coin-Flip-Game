@@ -7,7 +7,7 @@ type LoadingModalProps = {
   message?: string; // Optional message to display
 };
 
-export default function LoadingModal({ isLoading, message = "Flipping a coin..." }: LoadingModalProps) {
+export default function LoadingModal({ isLoading }: LoadingModalProps) {
   if (!isLoading) return null;
 
   return (
