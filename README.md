@@ -4,7 +4,7 @@
   <img src="https://github.com/user-attachments/assets/37060d0c-0f83-4624-ad46-de51c6b1d407" alt="coin-flip-solana" width="600">
 </div>
 A decentralized Coin Flip Game built on the Solana Blockchain, powered by **Next.js** for its frontend, and leveraging blockchain technology for trustless gaming. Test your luck today!
-
+[DEMO](https://qaschoolusa.github.io/Solana-Coin-Flip-Game/)
 ---
 
 ## 📂 Project Overview  
