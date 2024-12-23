@@ -3,10 +3,10 @@
 import React, { useEffect, useState } from 'react';
 
 type CoinProps = {
-  result: 'heads' | 'tails'; // Result passed from CoinFlip component
+  result: "heads" | "tails" | null;
 };
 
-const Coin: React.FC<CoinProps> = ({ result }) => {
+const Coin: React.FC<CoinProps> = ({ result }: CoinProps) => {
   const [isFlipping, setIsFlipping] = useState(false);
   const [currentSide, setCurrentSide] = useState<'heads' | 'tails'>('heads'); // Default to heads
 

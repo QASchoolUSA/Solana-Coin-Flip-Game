@@ -25,8 +25,8 @@ const HOUSE_WALLET_ADDRESS = new PublicKey('bosqY2NZfWMnZdAhezuxHuS9PT37Xrk76691
 export default function BettingGame() {
   const { connected, publicKey, sendTransaction } = useWallet();
   const [betAmount, setBetAmount] = useState(0.1);
-  const [selection, setSelection] = useState<"Heads" | "Tails" | null>(null);
-  const [result, setResult] = useState<"Heads" | "Tails" | null>(null);
+  const [selection, setSelection] = useState<"heads" | "tails" | null>(null);
+  const [result, setResult] = useState<"heads" | "tails" | null>(null);
   const [isFlipping, setIsFlipping] = useState(false);
   const [message, setMessage] = useState("");
 
