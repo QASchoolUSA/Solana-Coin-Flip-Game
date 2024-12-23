@@ -2,6 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  height: 100%;
+}
+body {
+  height: 100%;
+  @apply bg-white text-black;
+}
+body.dark {
+  @apply bg-black text-white;
+}
+
+:root {
+  --card-bg: #ffffff;
+  --card-foreground: #000000;
+}
+
+html.dark {
+  --card-bg: #1a1a1a;
+  --card-foreground: #f5f5f5;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

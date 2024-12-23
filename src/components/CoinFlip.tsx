@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "../components/ui/button";
 import { Card, CardHeader, CardContent, CardFooter } from "../components/ui/card";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
@@ -12,7 +12,6 @@ import {
   Transaction,
   SystemProgram,
   LAMPORTS_PER_SOL,
-  Keypair,
   PublicKey,
 } from "@solana/web3.js";
 
@@ -20,10 +19,6 @@ const secretKeyString = process.env.NEXT_PUBLIC_HOUSE_WALLET_SECRET;
 if (!secretKeyString) {
   throw new Error("House wallet secret key is missing. Check your environment variables.");
 }
-
-// const HOUSE_WALLET_KEYPAIR = Keypair.fromSecretKey(
-//   Uint8Array.from(JSON.parse(secretKeyString))
-// );
 
 const HOUSE_WALLET_ADDRESS = new PublicKey('bosqY2NZfWMnZdAhezuxHuS9PT37Xrk76691LoZnUBs');
 
@@ -34,6 +29,21 @@ export default function BettingGame() {
   const [result, setResult] = useState<"Heads" | "Tails" | null>(null);
   const [isFlipping, setIsFlipping] = useState(false);
   const [message, setMessage] = useState("");
+
+  const connection = new Connection('https://api.devnet.solana.com', 'confirmed');
+
+  const logWalletBalance = async () => {
+    if (publicKey) {
+      const balance = await connection.getBalance(publicKey);
+      console.log(`Wallet balance: ${balance / LAMPORTS_PER_SOL} SOL`);
+    } else {
+      console.log('Wallet not connected');
+    }
+  };
+
+  useEffect(() => {
+    logWalletBalance();
+  }, [publicKey]);
 
   const handleBet = async () => {
     if (!connected) {
@@ -49,8 +59,6 @@ export default function BettingGame() {
     setIsFlipping(true);
     setMessage("");
     setResult(null);
-
-    const connection = new Connection('https://api.devnet.solana.com', 'confirmed');
 
     // Create a transaction
     const transaction = new Transaction();
@@ -68,35 +76,22 @@ export default function BettingGame() {
     const flipResult = Math.random() < 0.5 ? "Heads" : "Tails";
     setTimeout(async () => {
       setResult(flipResult);
-
-      if (flipResult === selection) {
-        // User wins, prepare winnings transaction
-        transaction.add(
-          SystemProgram.transfer({
-            fromPubkey: HOUSE_WALLET_ADDRESS,
-            toPubkey: publicKey!,
-            lamports: betAmount * 2 * LAMPORTS_PER_SOL, // Send back double the bet amount
-          })
-        );
-      }
-
       try {
         // Send the transaction
         const signature = await sendTransaction(transaction, connection);
         await connection.confirmTransaction(signature, 'confirmed');
         
         if (flipResult === selection) {
-          setMessage("You won! Your winnings have been sent to your wallet.");
-        } else {
-          setMessage("You lost. Better luck next time!");
+          // Handle winnings without confirmation popup
+          // Add your logic here to update the state or UI for winnings
         }
       } catch (error) {
-        console.error("Transaction failed:", error);
-        setMessage("Transaction failed. Please try again.");
+        console.error("Unexpected error:", error);
+        setMessage("An error occurred while processing the transaction.");
       } finally {
-        setIsFlipping(false); // Hide loading modal after result is shown
+        setIsFlipping(false);
       }
-    }, 1500);
+    }, 1000);
   };
 
   return (
