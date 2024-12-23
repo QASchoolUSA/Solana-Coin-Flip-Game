@@ -107,7 +107,7 @@ export default function BettingGame() {
             <p>Select your bet:</p>
             <div className="flex gap-4 justify-center">
               <Button
-                variant={selection === "heads" ? "primary" : "outline"}
+                variant={selection === "heads" ? "default" : "outline"}
                 style={{
                   backgroundColor: selection === "heads" ? '#512da8' : 'white',
                   color: selection === "heads" ? 'white' : 'black',
@@ -117,7 +117,7 @@ export default function BettingGame() {
                 Heads
               </Button>
               <Button
-                variant={selection === "tails" ? "primary" : "outline"}
+                variant={selection === "tails" ? "default" : "outline"}
                 style={{
                   backgroundColor: selection === "tails" ? '#512da8' : 'white',
                   color: selection === "tails" ? 'white' : 'black',
