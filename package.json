@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "NODE_OPTIONS='--no-deprecation' next build",
+    "copy-public": "cp -R public .next/public",
     "start": "next start",
     "lint": "next lint"
   },
