@@ -27,8 +27,7 @@ const Coin: React.FC<CoinProps> = ({ result }: CoinProps) => {
         className={`coin ${isFlipping ? 'flipping' : ''}`}
         style={{
           ...styles.coin,
-          backgroundImage: `url(${currentSide === 'heads' ? '/heads.png' : '/tails.png'})`,
-        }}
+          backgroundImage: `url(${currentSide === 'heads' ? './heads.png' : './tails.png'})`,        }}
       ></div>
     </div>
   );
