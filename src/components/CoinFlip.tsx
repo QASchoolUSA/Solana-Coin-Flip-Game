@@ -73,7 +73,7 @@ export default function BettingGame() {
     );
 
     // Simulate coin flip
-    const flipResult = Math.random() < 0.5 ? "Heads" : "Tails";
+    const flipResult = Math.random() < 0.5 ? "heads" : "tails";
     setTimeout(async () => {
       setResult(flipResult);
       try {
@@ -107,22 +107,22 @@ export default function BettingGame() {
             <p>Select your bet:</p>
             <div className="flex gap-4 justify-center">
               <Button
-                variant={selection === "Heads" ? "solid" : "outline"}
+                variant={selection === "heads" ? "solid" : "outline"}
                 style={{
-                  backgroundColor: selection === "Heads" ? '#512da8' : 'white',
-                  color: selection === "Heads" ? 'white' : 'black',
+                  backgroundColor: selection === "heads" ? '#512da8' : 'white',
+                  color: selection === "heads" ? 'white' : 'black',
                 }}
-                onClick={() => setSelection("Heads")}
+                onClick={() => setSelection("heads")}
               >
                 Heads
               </Button>
               <Button
-                variant={selection === "Tails" ? "solid" : "outline"}
+                variant={selection === "tails" ? "solid" : "outline"}
                 style={{
-                  backgroundColor: selection === "Tails" ? '#512da8' : 'white',
-                  color: selection === "Tails" ? 'white' : 'black',
+                  backgroundColor: selection === "tails" ? '#512da8' : 'white',
+                  color: selection === "tails" ? 'white' : 'black',
                 }}
-                onClick={() => setSelection("Tails")}
+                onClick={() => setSelection("tails")}
               >
                 Tails
               </Button>
