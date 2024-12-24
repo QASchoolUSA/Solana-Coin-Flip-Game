@@ -10,7 +10,7 @@ export default {
 	theme: {
 		extend: {
 			fontFamily: {
-        sans: ['Helvetica', 'Arial', 'sans-serif'], // Add Helvetica as the default sans font
+        sans: ['Geist', 'Arial', 'sans-serif'], // Add Helvetica as the default sans font
 			},
 			animation: {
 				flip: "flip 1.5s ease-in-out"
