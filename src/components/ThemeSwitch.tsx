@@ -1,14 +1,35 @@
-import { useTheme } from '../context/ThemeContext';
+'use client';
+
+import { SunMoon } from 'lucide-react';
+import { useTheme } from '@/context/ThemeContext';
+import { useEffect, useState } from 'react';
 
 const ThemeSwitch = () => {
   const { theme, toggleTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  // Only render component after first mount to avoid hydration mismatch
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null; // Return null on first render to avoid hydration mismatch
+  }
 
   return (
     <button
       onClick={toggleTheme}
-      className="p-2 border rounded-md hover:bg-gray-200 dark:hover:bg-gray-700"
+      className="p-2 rounded-lg bg-gray-400 hover:bg-gray-700 transition-colors"
+      aria-label="Toggle theme"
     >
-      {theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
+      <SunMoon 
+        className={`w-6 h-6 ${
+          theme === 'dark' 
+            ? 'text-yellow-400' 
+            : 'text-white'
+        }`}
+      />
     </button>
   );
 };
